@@ -1,25 +1,21 @@
 package com.hmy.euclidean;
 
+import org.json.JSONObject;
+
 import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
+@WebServlet(name = "helloServlet", value = "/game")
 public class HelloServlet extends HttpServlet {
-    private String message;
-
-    public void init() {
-        message = "Hello Euclidean!";
-    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        JSONObject game = new JSONObject();
+        game.put("name", "Tango");
+        game.put("price", "70");
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
+        response.getWriter().print(game);
     }
 
     public void destroy() {
