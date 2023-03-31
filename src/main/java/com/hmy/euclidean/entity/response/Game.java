@@ -1,7 +1,11 @@
 package com.hmy.euclidean.entity.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Game {
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("price")
     private double price;
 
     public String getName() {
