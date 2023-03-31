@@ -1,5 +1,7 @@
 package com.hmy.euclidean;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hmy.euclidean.entity.response.Game;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
@@ -13,11 +15,13 @@ public class HelloServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
-        JSONObject game = new JSONObject();
-        game.put("name", "Tango");
-        game.put("price", "70");
+        ObjectMapper mapper = new ObjectMapper();
+        Game.Builder builder = new Game.Builder();
+        builder.setName("Pokemon Go");
+        builder.setPrice(9.99);
 
-        response.getWriter().print(game);
+        Game game = builder.build();
+        response.getWriter().print(mapper.writeValueAsString(game));
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
