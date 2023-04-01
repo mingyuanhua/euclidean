@@ -61,3 +61,40 @@ public class Game {
     }
 }
 ```
+
+### Presentation tier
+It’s the tier that users can access directly. It provides the application’s user interface. For example, how to register, login, search, save favorite games in the browser and how to provide an easy way for users to send requests to the backend.
+Language: HTML, CSS, Javascript
+
+For our project, we are using react
+
+### Logic tier
+Maintain the business logic of the application, sitting between presentation tier and data tier, receive requests from presentation tier, make correct database operation, and return the final result back to the presentation tier.
+Language: Java, Go, Python, …
+
+We are using Spring in our project
+
+### Data tier
+Mostly we don’t need to create a database system ourselves, we just need to use an existing one like MySQL. What we need to do is tell the database system how to store our data. For example, what does each table look like, what’s the relationship between each other.
+Language: SQL
+
+We are using Hibernate framework to operate the database 
+
+### What is MVC?
+The Model-View-Controller (MVC) is an architectural pattern that commonly used for developing user interfaces that divide the related program logic into three interconnected elements
+
+Model: The Model component corresponds to all the data-related logic that the user works with(管理这个模块中的数据)
+
+View: The View component is used for all the UI logic of the application(主要用于显示数据和提交请求)
+
+Controller: Controllers act as an interface between Model and View components to process all the business logic and incoming requests, manipulate data using the Model component and interact with the Views to render the final output(主要用作捕获并控制请求转发)
+
+1. Web浏览器发送HTTP请求到服务端, 被Controller(Servlet)获取并进行处理（例如参数解析、请求转发）
+2. Controller(Servlet)调用核心业务逻辑——Model部分, 获得结果
+3. Controller(Servlet)将逻辑处理结果交给View(JSP), 动态输出HTML内容
+4. 动态生成的HTML内容返回到浏览器显示
+
+### What is Spring Web MVC?
+The Spring MVC framework provides MVC architecture and components that can be used to develop flexible and loosely coupled web applications. It is designed around a DispatcherServlet that handles all the HTTP requests and responses and discovers the delegate components for actual work.
+
+
