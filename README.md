@@ -96,12 +96,38 @@ Controller: Controllers act as an interface between Model and View components to
 
 ### What is Spring Web MVC?
 The Spring MVC framework provides MVC architecture and components that can be used to develop flexible and loosely coupled web applications. It is designed around a DispatcherServlet that handles all the HTTP requests and responses and discovers the delegate components for actual work.
+[Official link](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-arguments)
 
 #### @Controller
 Use @Controller to mark a class its role as a web component, so the spring mvc will register the methods which annotated the @RequestMapping.
 
 #### @RequestMapping
 Use the @RequestMapping annotation to define **REST API**, such as HTTP URL, method, etc.
+
+#### @RequestParam
+use the @RequestParam annotation to bind Servlet request parameters (that is, query parameters) to a method argument in a controller.
+
+For example, 
+```http request
+http://localhost:8080/search?lon=22&lat=37
+```
+If we would like to define a REST API via Spring MVC, we could define it as below
+```java
+@RequestMapping(value = "/search", method = RequestMethod.GET)
+public String search(@RequestParam("lon") double lon, @RequestParam("lat") double lat) {
+    return "hello search";
+}
+```
+
+#### @PathVariable
+can be used to handle template variables in the request URI mapping.
+
+For example: get menu for a specific restaurant
+```java
+@RequestMapping(value = "/restaurant/{id}/menu", method = RequestMethod.GET)
+public void searchMenu(@PathVariable(“id”) int id) {}
+```
+
 
 
 
