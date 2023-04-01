@@ -2,7 +2,7 @@
 
 
 ### Initial Design
-![Initial Design Diagram](/euclidean/BackendDesignDiagram1.png)
+![Initial Design Diagram](/BackendDesignDiagram1.png)
 
 ### Jackson Library
 Manually parsing JSON is not efficient, and error-prone. It doesn’t impose type safety, you can put in anything for any field. A better way is having a model entity class, and use a library to perform the parsing. Jackson is one of such libraries. 
@@ -112,11 +112,11 @@ Use the @RequestMapping annotation to define **REST API**, such as HTTP URL, met
 use the @RequestParam annotation to bind Servlet request parameters (that is, query parameters) to a method argument in a controller.
 
 For example, 
-```http request
+```
 http://localhost:8080/search?lon=22&lat=37
 ```
 If we would like to define a REST API via Spring MVC, we could define it as below
-```java
+```
 @RequestMapping(value = "/search", method = RequestMethod.GET)
 public String search(@RequestParam("lon") double lon, @RequestParam("lat") double lat) {
     return "hello search";
@@ -127,7 +127,7 @@ public String search(@RequestParam("lon") double lon, @RequestParam("lat") doubl
 can be used to handle template variables in the request URI mapping.
 
 For example: get menu for a specific restaurant
-```java
+```
 @RequestMapping(value = "/restaurant/{id}/menu", method = RequestMethod.GET)
 public void searchMenu(@PathVariable(“id”) int id) {}
 ```
