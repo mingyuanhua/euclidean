@@ -97,4 +97,12 @@ Controller: Controllers act as an interface between Model and View components to
 ### What is Spring Web MVC?
 The Spring MVC framework provides MVC architecture and components that can be used to develop flexible and loosely coupled web applications. It is designed around a DispatcherServlet that handles all the HTTP requests and responses and discovers the delegate components for actual work.
 
+#### @Controller
+Use @Controller to mark a class its role as a web component, so the spring mvc will register the methods which annotated the @RequestMapping.
+
+#### @RequestMapping
+Use the @RequestMapping annotation to define **REST API**, such as HTTP URL, method, etc.
+
+
+
 
