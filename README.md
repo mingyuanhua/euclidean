@@ -224,6 +224,16 @@ public class MySqlConnection implements Connection {
 = Java Object
   - The Java object that is initialized and managed by Spring is called bean.
 
+### How to configure a class as Bean in the Spring container?
+- [XML based configuration](https://www.baeldung.com/spring-xml-injection)
+- Annotation-based configuration
+
+Annotation-based configuration using annotations on the relevant class, method or the field so that Spring can recognize and initialize them. @Component and @Autowired
+
+// @Component -> class level
+
+// @Autowired -> field or constructor method level
+
 
 
 
