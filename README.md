@@ -132,6 +132,10 @@ For example: get menu for a specific restaurant
 public void searchMenu(@PathVariable(“id”) int id) {}
 ```
 
+### Spring Framework
+The Spring Framework is the most widely used framework for the development of **Java Enterprise Edition** applications, specifically, **web applications**. 
+
+The [Spring Framework](https://spring.io/projects/spring-framework) is divided into modules. At the heart are the modules of the core container, including a configuration model and a dependency injection mechanism. The main usage of Spring core is to create all the objects (for example, objects that connect to database, business logic related class, controller, etc) that your application is required for running and dependency injection to achieve the loosely coupled.
 
 
 
