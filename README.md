@@ -116,7 +116,7 @@ For example,
 http://localhost:8080/search?lon=22&lat=37
 ```
 If we would like to define a REST API via Spring MVC, we could define it as below
-```java
+```
 @RequestMapping(value = "/search", method = RequestMethod.GET)
 public String search(@RequestParam("lon") double lon, @RequestParam("lat") double lat) {
     return "hello search";
@@ -127,7 +127,7 @@ public String search(@RequestParam("lon") double lon, @RequestParam("lat") doubl
 can be used to handle template variables in the request URI mapping.
 
 For example: get menu for a specific restaurant
-```java
+```
 @RequestMapping(value = "/restaurant/{id}/menu", method = RequestMethod.GET)
 public void searchMenu(@PathVariable(“id”) int id) {}
 ```
@@ -137,6 +137,82 @@ The Spring Framework is the most widely used framework for the development of **
 
 The [Spring Framework](https://spring.io/projects/spring-framework) is divided into modules. At the heart are the modules of the core container, including a configuration model and a dependency injection mechanism. The main usage of Spring core is to create all the objects (for example, objects that connect to database, business logic related class, controller, etc) that your application is required for running and dependency injection to achieve the loosely coupled.
 
+### Spring Core
+#### What is dependency?
+The objects that the current class cooperates with.
+
+For example:
+```java
+public interface Connection {
+void connect();
+}
+
+public class MySqlConnection implements Connection {
+}
+
+public class OracleConnection implements Connection{
+}
+
+public class PaymentAction {
+private Connection connection;
+
+    public PaymentAction() {
+        connection= new OracleConnection();
+    }
+
+    public void makePayment() {
+       connection.connect();
+    }
+}
+```
+
+#### Dependency Injection/Inversion of Control
+Instead of maintaining dependencies by the PaymentAction object, it can be injected by someone else(spring framework). This is called Dependency Injection. Here are two mainstream approaches as follows:
+
+- Constructor Injection
+```
+@Autowired
+public PaymentAction(Connection connection) {
+    this.connection = connection;
+}
+```
+- Field Injection
+```
+public class PaymentAction {
+    @Autowired
+    private Connection connection;
+}
+```
+
+So, the example above can be converted to code below:
+```
+@Component
+public class PaymentAction {
+    private Connection connection;
+    
+    @Autowired
+    public PaymentAction(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void makePayment() {
+       connection.connect();
+    }
+}
+
+@Component
+public class MySqlConnection implements Connection {
+
+    Public void connect() {
+           // connect to MySQL
+    } 
+}
+```
+从PaymentAction的角度来看，它只是想使用connection，不在意其是如何创建的。PaymentAction希望someone(spring)把connection实例化之后在交给PaymentAction对象，就是用Dependency Injection来实现的.
+
+依赖倒置原则（Dependence Inversion Principle）是程序要依赖于抽象接口，不要依赖于具体实现。
+
+依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。
 
 
 
