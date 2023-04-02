@@ -214,5 +214,16 @@ public class MySqlConnection implements Connection {
 
 依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。
 
+- IoC Container
+= [ApplicationContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContext.html)
+  - Inversion of Control (IoC)在大部分情况下就是Dependency Injection
+  - The IoC container will create the objects, wire them together, configure them, and manage their complete life cycle from creation till destruction. These objects are called Spring Beans.
+  - The container gets its instructions on what objects to instantiate, configure, and assemble by reading the configuration metadata provided. The configuration metadata can be represented either by XML, Java annotations, or Java code
+
+- Bean
+= Java Object
+  - The Java object that is initialized and managed by Spring is called bean.
+
+
 
 
