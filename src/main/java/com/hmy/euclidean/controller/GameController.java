@@ -1,5 +1,7 @@
 package com.hmy.euclidean.controller;
 
+import com.hmy.euclidean.Service.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,9 @@ import java.io.IOException;
 // Use the @RequestMapping annotation to define REST API, such as HTTP URL, method, etc.
 @Controller
 public class GameController {
+    @Autowired
+    private GameService gameService;
+
     @RequestMapping(value = "/game", method = RequestMethod.GET)
     public void getGame(@RequestParam(value = "game_name", required = false) String gameName, HttpServletResponse response) throws IOException {
 
