@@ -214,6 +214,131 @@ public class MySqlConnection implements Connection {
 
 依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。
 
+IoC Example:
+```
+abstract class Grinder {
+	
+	public void grind() {
+
+	}
+}
+
+// Expensive
+class BurrGrinder extends Grinder {
+
+}
+
+
+abstract class Boiler {
+
+	public void boil() {
+
+
+	}
+}
+
+
+@Component
+class DualBoiler extends Boiler {
+	
+}
+
+@Component
+class CoffeeMaker {
+
+	private int count = 0;
+
+	private int max = 10;
+
+	@AutoWire
+	private Grinder grinder;
+
+	@AutoWire
+	private Boiler boiler;
+
+	public void makeCoffee() {
+
+		grinder.grind();
+
+		boiler.boil();
+	}
+}
+
+/// main 
+
+grinder = new BladeGrinder();
+
+boiler = new DualBolier();
+
+coffeeMakder = new CoffeeMaker(grinder, boiler) 
+
+
+// post localhost:8080/make_coffee
+
+
+// CoffeeMakerController
+@Controller
+class CoffeeMakerController {
+	
+
+    @AutoWire
+    private CoffeeMaker coffeeMaker 
+
+
+   	public CoffeeMakerController() {
+   	   
+   	}
+
+
+   @RequestMapping(value = "/make_coffee", method = RequestMethod.POST)
+   public void makeCoffee() {
+
+   		coffeeMaker.makeCoffee();
+   }
+}
+
+
+// CoffeeMakerController
+@Controller
+class OfficeController {
+	
+
+    @AutoWire
+    private CoffeeMaker coffeeMaker 
+
+
+   	public CoffeeMakerController() {
+   	   
+   	}
+
+   @RequestMapping(value = "/make_coffee_in_office", method = RequestMethod.POST)
+   public void makeCoffee() {
+
+   		coffeeMaker.makeCoffee();
+   }
+}
+
+// CoffeeMakerController
+@Controller
+class HomeController {
+	
+
+    @AutoWire
+    private CoffeeMaker coffeeMaker 
+
+
+   	public CoffeeMakerController() {
+   	   
+   	}
+  @RequestMapping(value = "/make_coffee_at_home", method = RequestMethod.POST)
+   public void makeCoffee() {
+
+   		coffeeMaker.makeCoffee();
+   }
+}
+```
+
+
 - IoC Container
 = [ApplicationContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/ApplicationContext.html)
   - Inversion of Control (IoC)在大部分情况下就是Dependency Injection
