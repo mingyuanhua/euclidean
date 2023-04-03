@@ -220,6 +220,10 @@ public class MySqlConnection implements Connection {
   - The IoC container will create the objects, wire them together, configure them, and manage their complete life cycle from creation till destruction. These objects are called Spring Beans.
   - The container gets its instructions on what objects to instantiate, configure, and assemble by reading the configuration metadata provided. The configuration metadata can be represented either by XML, Java annotations, or Java code
 
+- How a Spring IOC container is created on the web application?
+  - When Tomcat runs the **DispatcherServlet**, it will internally create a spring ioc container
+
+
 - Bean
 = Java Object
   - The Java object that is initialized and managed by Spring is called bean.
@@ -234,6 +238,10 @@ Annotation-based configuration using annotations on the relevant class, method o
 
 // @Autowired -> field or constructor method level
 
+- Java-based configuration
+  - Using Java based configuration allows you to write your Spring configuration without using XML. Java based configuration uses the @Configuration-annotated classes and @Bean-annotated methods.
+  - Using @Configuration annotation indicates that Spring IoC container can use it as a source of Bean definitions. Using the @Bean tells Spring that the method will return an object which should be registered as a bean in the Spring container.
+  [spring config](https://www.baeldung.com/spring-xml-vs-java-config)
 
 
 
