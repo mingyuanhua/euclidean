@@ -243,5 +243,17 @@ Annotation-based configuration using annotations on the relevant class, method o
   - Using @Configuration annotation indicates that Spring IoC container can use it as a source of Bean definitions. Using the @Bean tells Spring that the method will return an object which should be registered as a bean in the Spring container.
   [spring config](https://www.baeldung.com/spring-xml-vs-java-config)
 
+### Why do we choose Spring?
+- **Versatile**: We can integrate any technologies with spring, such as hibernate, structs, etc.
+- **Modularity**: We've options to use the entire Spring framework or just the modules necessary. Moreover, we can optionally include one or more Spring projects depending upon the need.
+- **End to End Development**: Spring supports all aspects of application development, Web aspects, Business aspects, Persistence aspects, etc, so we can develop a complete application using spring.
+
+### Spring Summary:
+1. 什么是dependency? 类的成员变量
+2. 什么是IoC container？生成Bean实例的工厂, 并且管理容器中的Bean
+3. 什么是dependency injection？容器将所需要的依赖注入到类中的过程
+4. 什么是inversion of control? 不在主动创建依赖, 而是通过上游(Spring framework)来提供
+
+
 
 
