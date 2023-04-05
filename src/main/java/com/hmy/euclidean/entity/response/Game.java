@@ -23,4 +23,34 @@ public class Game {
     public String getBoxArtUrl() {
         return boxArtUrl;
     }
+
+    public static class Builder {
+        @JsonProperty("id")
+        private String id;
+
+        @JsonProperty("name")
+        private String name;
+
+        @JsonProperty("box_art_url")
+        private String boxArtUrl;
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder boxArtUrl(String boxArtUrl) {
+            this.boxArtUrl = boxArtUrl;
+            return this;
+        }
+
+        public Game build() {
+            return new Game(this);
+        }
+    }
 }
