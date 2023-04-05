@@ -11,4 +11,16 @@ public class Game {
 
     @JsonProperty("box_art_url")
     private final String boxArtUrl;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBoxArtUrl() {
+        return boxArtUrl;
+    }
 }
