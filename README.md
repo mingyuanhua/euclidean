@@ -459,5 +459,7 @@ try {
 }
 ```
 
-
+@JsonIgnoreProperties(ignoreUnknown = true) indicates that other fields in the response can be safely ignored. Without this, you’ll get an exception at runtime.
+@JsonInclude(JsonInclude.Include.NON_NULL) indicates that null fields can be skipped and not included.
+@JsonDeserialize indicates that Jackson needs to use Game.Builder when constructing a Game object from JSON strings.
 
