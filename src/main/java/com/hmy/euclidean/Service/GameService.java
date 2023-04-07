@@ -1,5 +1,8 @@
 package com.hmy.euclidean.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hmy.euclidean.entity.response.Game;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class GameService {
@@ -71,6 +76,17 @@ public class GameService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    // Convert JSON format data returned from Twitch to an Arraylist of Game objects
+    private List<Game> getGameList(String data) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return Arrays.asList(mapper.readValue(data, Game[].class));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to parse game data from Twitch API");
         }
     }
 }
