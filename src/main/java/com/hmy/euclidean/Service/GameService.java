@@ -1,7 +1,15 @@
 package com.hmy.euclidean.Service;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -26,6 +34,43 @@ public class GameService {
                 e.printStackTrace();
             }
             return String.format(url, gameName);
+        }
+    }
+
+    // Send HTTP request to Twitch Backend based on the given URL, and returns the body of the HTTP response returned from Twitch backend.
+    private String searchTwitch(String url) throws TwitchException {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+
+        // Define the response handler to parse and return HTTP response body returned from Twitch
+        ResponseHandler<String> responseHandler = response -> {
+            int responseCode = response.getStatusLine().getStatusCode();
+            if (responseCode != 200) {
+                System.out.println("Response status: " + response.getStatusLine().getReasonPhrase());
+                throw new TwitchException("Failed to get result from Twitch API");
+            }
+            HttpEntity entity = response.getEntity();
+            if (entity == null) {
+                throw new TwitchException("Failed to get result from Twitch API");
+            }
+            JSONObject obj = new JSONObject(EntityUtils.toString(entity));
+            return obj.getJSONArray("data").toString();
+        };
+
+        try {
+            // Define the HTTP request, TOKEN and CLIENT_ID are used for user authentication on Twitch backend
+            HttpGet request = new HttpGet(url);
+            request.setHeader("Authorization", TOKEN);
+            request.setHeader("Client-Id", CLIENT_ID);
+            return httpclient.execute(request, responseHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new TwitchException("Failed to get result from Twitch API");
+        } finally {
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
