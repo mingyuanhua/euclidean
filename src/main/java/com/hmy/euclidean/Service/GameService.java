@@ -89,4 +89,12 @@ public class GameService {
             throw new RuntimeException("Failed to parse game data from Twitch API");
         }
     }
+
+    // Integrate search() and getGameList() together, returns the top x popular games from Twitch
+    public List<Game> topGames(int limit) {
+        if (limit <= 0) {
+            limit = DEFAULT_GAME_LIMIT;
+        }
+        return getGameList(searchTwitch(buildGameURL(TOP_GAME_URL, "", limit)));
+    }
 }
