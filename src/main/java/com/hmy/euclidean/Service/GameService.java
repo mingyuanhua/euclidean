@@ -39,7 +39,7 @@ public class GameService {
 
     // Send HTTP request to Twitch Backend based on the given URL, and returns the body of the HTTP response returned from Twitch backend.
     private String searchTwitch(String url) throws TwitchException {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
 
         // Define the response handler to parse and return HTTP response body returned from Twitch
         ResponseHandler<String> responseHandler = response -> {
@@ -61,13 +61,13 @@ public class GameService {
             HttpGet request = new HttpGet(url);
             request.setHeader("Authorization", TOKEN);
             request.setHeader("Client-Id", CLIENT_ID);
-            return httpclient.execute(request, responseHandler);
+            return httpClient.execute(request, responseHandler);
         } catch (IOException e) {
             e.printStackTrace();
             throw new TwitchException("Failed to get result from Twitch API");
         } finally {
             try {
-                httpclient.close();
+                httpClient.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
