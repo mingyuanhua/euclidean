@@ -97,4 +97,13 @@ public class GameService {
         }
         return getGameList(searchTwitch(buildGameURL(TOP_GAME_URL, "", limit)));
     }
+
+    // Integrate search() and getGameList() together, returns the dedicated game based on the game name
+    public Game searchGame(String gameName) {
+        List<Game> gameList = getGameList(searchTwitch(buildGameURL(GAME_SEARCH_URL_TEMPLATE, gameName, 0)));
+        if (gameList.size() != 0) {
+            return gameList.get(0);
+        }
+        return null;
+    }
 }
