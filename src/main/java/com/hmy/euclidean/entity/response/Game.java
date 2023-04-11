@@ -18,12 +18,6 @@ public class Game {
     @JsonProperty("box_art_url")
     private final String boxArtUrl;
 
-    private Game(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.boxArtUrl = builder.boxArtUrl;
-    }
-
     public String getId() {
         return id;
     }
@@ -34,6 +28,12 @@ public class Game {
 
     public String getBoxArtUrl() {
         return boxArtUrl;
+    }
+
+    private Game(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.boxArtUrl = builder.boxArtUrl;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
