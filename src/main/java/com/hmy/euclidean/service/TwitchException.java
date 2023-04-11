@@ -1,4 +1,4 @@
-package com.hmy.euclidean.Service;
+package com.hmy.euclidean.service;
 
 public class TwitchException extends RuntimeException {
     public TwitchException(String errorMessage) {

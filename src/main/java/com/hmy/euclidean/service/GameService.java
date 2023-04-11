@@ -1,4 +1,4 @@
-package com.hmy.euclidean.Service;
+package com.hmy.euclidean.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
