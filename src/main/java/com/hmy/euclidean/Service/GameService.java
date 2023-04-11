@@ -20,20 +20,19 @@ import java.util.List;
 
 @Service
 public class GameService {
-    private static final String TOKEN = "Bearer jonris96d3cj0a4nlkt398bgzch5au";
+    private static final String TOKEN = "Bearer wxds5xxqvcv24qgx7twmyyypswnea0";
     private static final String CLIENT_ID = "5l0ari2560dmkdrf5wql00ye5mk8nd";
     private static final String TOP_GAME_URL = "https://api.twitch.tv/helix/games/top?first=%s";
     private static final String GAME_SEARCH_URL_TEMPLATE = "https://api.twitch.tv/helix/games?name=%s";
     private static final int DEFAULT_GAME_LIMIT = 20;
 
-    // build the request URL which will be used when calling Twitch APIs
-    // e.g. https://api.twitch.tv/helix/games/top when trying to get top games.
+    // Build the request URL which will be used when calling Twitch APIs, e.g. https://api.twitch.tv/helix/games/top when trying to get top games.
     private String buildGameURL(String url, String gameName, int limit) {
         if (gameName.equals("")) {
             return String.format(url, limit);
         } else {
             try {
-                // Encode special characters in URL
+                // Encode special characters in URL, e.g. Rick Sun -> Rick%20Sun
                 gameName = URLEncoder.encode(gameName, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -44,7 +43,7 @@ public class GameService {
 
     // Send HTTP request to Twitch Backend based on the given URL, and returns the body of the HTTP response returned from Twitch backend.
     private String searchTwitch(String url) throws TwitchException {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpClient httpclient = HttpClients.createDefault();
 
         // Define the response handler to parse and return HTTP response body returned from Twitch
         ResponseHandler<String> responseHandler = response -> {
@@ -66,13 +65,13 @@ public class GameService {
             HttpGet request = new HttpGet(url);
             request.setHeader("Authorization", TOKEN);
             request.setHeader("Client-Id", CLIENT_ID);
-            return httpClient.execute(request, responseHandler);
+            return httpclient.execute(request, responseHandler);
         } catch (IOException e) {
             e.printStackTrace();
             throw new TwitchException("Failed to get result from Twitch API");
         } finally {
             try {
-                httpClient.close();
+                httpclient.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -80,7 +79,7 @@ public class GameService {
     }
 
     // Convert JSON format data returned from Twitch to an Arraylist of Game objects
-    private List<Game> getGameList(String data) {
+    private List<Game> getGameList(String data){
         ObjectMapper mapper = new ObjectMapper();
         try {
             return Arrays.asList(mapper.readValue(data, Game[].class));
@@ -90,16 +89,16 @@ public class GameService {
         }
     }
 
-    // Integrate search() and getGameList() together, returns the top x popular games from Twitch
-    public List<Game> topGames(int limit) {
+    // Integrate search() and getGameList() together, returns the top x popular games from Twitch.
+    public List<Game> topGames(int limit){
         if (limit <= 0) {
             limit = DEFAULT_GAME_LIMIT;
         }
         return getGameList(searchTwitch(buildGameURL(TOP_GAME_URL, "", limit)));
     }
 
-    // Integrate search() and getGameList() together, returns the dedicated game based on the game name
-    public Game searchGame(String gameName) {
+    // Integrate search() and getGameList() together, returns the dedicated game based on the game name.
+    public Game searchGame(String gameName){
         List<Game> gameList = getGameList(searchTwitch(buildGameURL(GAME_SEARCH_URL_TEMPLATE, gameName, 0)));
         if (gameList.size() != 0) {
             return gameList.get(0);
