@@ -468,3 +468,30 @@ indicates that null fields can be skipped and not included.
 #### @JsonDeserialize 
 indicates that Jackson needs to use Game.Builder when constructing a Game object from JSON strings.
 
+### Database and Database Management System
+#### What is a Database?
+A database is an organized collection of data.
+
+#### What is a Database Management System?
+A database management system (DBMS) is a computer-software application that interacts with end-users, other applications, and the database itself to capture and analyze data. A general-purpose DBMS allows the definition, creation, querying, update, and administration of databases.
+
+#### Why do we need a Database?
+- We need to store some data set, a list of videos/games with id, name, address, and date. What will you do? Text File? Excel? The size of the list is large( > 1 million users).
+- Add some constraints to some data, such as the ID of each user should be different.
+- Create relations between different kinds of data, such as users saved some videos before.
+- Quickly retrieve data based on a given condition, such as retrieving all videos favorited by Rick Sun.
+- Quickly update or delete data based on given conditions, such as updating all favorite videos for Rick Sun.
+- Need access control on the data, meaning only authorized users can have access to the data set.
+- Allow multiple users access(add, search, update, delete) the data set at the same time.
+
+A DBMS allows you to fulfill all requirements above easily.
+### MySQL
+MySQL is an open-source relational database management system (RDBMS).
+#### Basic Concepts
+- Table: a collection of attributions. Similar to what you’ve seen in an excel chart. Each column is an attribute of an entity, and each row is a record/instance of an entity.
+- Row: a single, implicitly structured data item in a table
+- Column: a set of data values of a particularly simple type, one for each row of the table
+- Schema: the blueprint of how the table is constructed.
+- SQL: a programming language that is used to communicate with the DBMS.
+
+
