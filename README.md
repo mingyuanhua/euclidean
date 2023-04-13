@@ -494,4 +494,9 @@ MySQL is an open-source relational database management system (RDBMS).
 - Schema: the blueprint of how the table is constructed.
 - SQL: a programming language that is used to communicate with the DBMS.
 
+#### Tables for Euclidean Project
+![Database Design Diagram](/mysql_tables.png)
+- users - store user information.
+- items - store item information.
+- favorite_records - store user favorite history.
 
