@@ -32,6 +32,18 @@ public class User implements Serializable {
     @JsonProperty("last_name")
     private String lastName;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "favorite_records", joinColumns = { @JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "item_id")})
+    Set<Item> itemSet = new HashSet<>();
+
+    public Set<Item> getItemSet() {
+        return itemSet;
+    }
+
+    public void setItemSet(Set<Item> itemSet) {
+        this.itemSet = itemSet;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -64,4 +76,5 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 }
+
 

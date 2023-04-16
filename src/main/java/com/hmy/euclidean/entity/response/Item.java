@@ -43,6 +43,18 @@ public class Item implements Serializable {
     @JsonProperty("item_type")
     private ItemType type;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "itemSet")
+    private Set<User> users= new HashSet<>();
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     public String getId() {
         return id;
     }
