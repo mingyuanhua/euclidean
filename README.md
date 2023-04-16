@@ -500,3 +500,23 @@ MySQL is an open-source relational database management system (RDBMS).
 - items - store item information.
 - favorite_records - store user favorite history.
 
+### Setup MySQL Instance on RDS
+#### Create a Security Group for RDS
+1. Go to http://aws.amazon.com, sign into your account and then open the EC2 dashboard.
+2. Under the EC2 dashboard, click the Security Group in the menu on the left.
+3. Click the Create Security Group at the top of page.
+4. In the Create Security Group popup window, choose a name for your group and then add a description for this group.
+5. Click the Add Rule button to add a new rule for your group.
+6. Choose MySQL/Aurora as the type of your rule and then make sure the port range is 3306 and the source is Anywhere.
+7. Click the Create button to create your security group.
+
+#### Create a MySQL database on RDS
+1. Open the RDS dashboard, click Create database.
+2. In the Engine options section, choose MySQL as your engine type.
+3. In the Templates section, choose Free tier instead of Production for the free trial.
+4. In the Settings section, enter a name for your database instance and then choose a password for the admin user of your database.
+5. In the Connectivity section, select “Yes” for publicly accessible, and then add the security group you’ve just created under the VPC security group.
+6. Finally, scroll down to the bottom of the page and click Create database. Then you should be able to see your MySQL DB instance running on RDS.
+
+
+
