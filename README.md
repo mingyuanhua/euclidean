@@ -518,5 +518,120 @@ MySQL is an open-source relational database management system (RDBMS).
 5. In the Connectivity section, select “Yes” for publicly accessible, and then add the security group you’ve just created under the VPC security group.
 6. Finally, scroll down to the bottom of the page and click Create database. Then you should be able to see your MySQL DB instance running on RDS.
 
+### JDBC Library
+JDBC (Java Database Connectivity) provides interfaces and classes for writing database operations. Technically speaking, JDBC is a standard API that defines how Java programs access database management systems. Since JDBC is a standard specification, one Java program that uses the JDBC API can connect to any database management system (DBMS), as long as a driver exists for that particular DBMS.
+
+[Official documentation of MySQL JDBC](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-usagenotes-connect-drivermanager.html)
+
+#### What’s the disadvantages of accessing the database via JDBC directly?
+1. Too many columns need to be set, too much code change needed if we add more data later.
+2. Error-prone approach to set data.
+3. SQL adjustment when switching to a different DB.
+
+Sample Code:
+```
+// String name = "Wang'; INSERT XXXX; ";
+// String query = "Select * from Person where Person.LastName = '" + name+"'" ;
+// String query = "Select * from Person where Person.LastName =  ? " ;
+String insertItemSql = "INSERT IGNORE INTO items VALUES (?, ?, ?, ?, ?)";
+try {
+PreparedStatement statement = conn.prepareStatement(insertItemSql);
+statement.setString(1, item.getId());
+statement.setString(2, item.getTitle());
+statement.setString(3, item.getLocation());
+statement.setString(4, item.getCompanyLogo());
+statement.setString(5, item.getUrl());
+statement.executeUpdate();
+} catch (SQLException e) {
+e.printStackTrace();
+}
+```
+
+### ORM
+#### What is ORM (Object-Relational Mapping)?
+ORM is a technique to convert data between the object model and relational database is known as object-relational mapping.
+
+Pro:
+- DRY (Don’t Repeat Yourself): model code in one place, and reusable for different DBMS.
+- Doesn’t require too much SQL knowledge. Code in your favorite language.
+- Apply OOP knowledge.
+
+Con:
+- You have to learn it, and ORM libraries are not lightweight tools.
+- Performance is OK for usual queries, but a SQL master will always do better with his own SQL for big projects.
+
+#### What is Hibernate?
+- Hibernate is an object-relational mapping tool for the Java programming language which implements the Java Persistence API.
+- Hibernate's primary feature is mapping from Java classes to database tables, and mapping from Java data types to SQL data types. Hibernate provides the API for manipulating data.
+
+[Java(TM) EE 8 Specification APIs](https://javaee.github.io/javaee-spec/javadocs/)
+[JPA vs ORM vs Hibernate](https://stackoverflow.com/questions/27462185/jpa-vs-orm-vs-hibernate)
+总而言之, JPA是ORM Java规范, hibernate是ORM Java实现.
+
+Popular ORM libraries:
+- Java: Hibernate, MyBatis, Room (Android)
+- PHP: Propel or Doctrine.
+- Python: the Django ORM or SQLAlchemy.
+- Go: Gorm
+
+For example:
+```SQL
+sql = "CREATE TABLE items ("
++ "item_id VARCHAR(255) NOT NULL,"
++ "name VARCHAR(255),"
++ "address VARCHAR(255),"
++ "image_url VARCHAR(255),"
++ "url VARCHAR(255),"
++ "PRIMARY KEY (item_id)"
++ ")";
+```
+```
+@Entity
+@Table(name = "items")
+public class Item {
+   @Id
+   @Column(name = "item_id")
+   private String id;
+
+   private String address;
+   
+   private String url;
+
+   private String name;
+
+   @Column(name = "image_url")
+   private String imageUrl;
+}
+```
+
+#### Important annotations used for mapping
+- javax.persistence.Entity: Used with model class to specify that it is an entity and mapped to a table in the database.
+- javax.persistence.Table: Used with entity class to define the corresponding table name in the database.
+- javax.persistence.Id: Used to define the primary key in the entity class.
+- javax.persistence.Column: Used to define the column name in the database table.
+- javax.persistence.OneToOne: Used to define the one-to-one mapping between two entity classes. We have other similar annotations as OneToMany, ManyToOne and ManyToMany
+  - OneToOne: extended information, e.g, Customer and Cart.
+  - ManyToOne: Foreign Key. It references the property from another Entity.
+  - OneToMany: The other direction of foreign keys. List of referencing entities.
+  - ManyToMany: Between two entities where one can have relations with multiple other entity instances, for example, item and user relationships on the first project.
+
+#### Types
+Basic type: Refer to [basic types](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#basic-provided).
+
+#### Identifiers
+Simple identifiers: Single basic attribute and denoted using @Id
+```
+@Entity
+public class Item {
+@Id
+private String id;
+}
+```
+
+According to JPA only [these types](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#identifiers-simple) can be used as identifier attribute types.
+
+
+
+
 
 
