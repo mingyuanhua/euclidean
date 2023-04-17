@@ -1,4 +1,4 @@
-package com.hmy.euclidean.entity.response;
+package com.hmy.euclidean.entity.db;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
