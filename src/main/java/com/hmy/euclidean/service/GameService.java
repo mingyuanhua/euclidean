@@ -111,4 +111,14 @@ public class GameService {
         }
         return null;
     }
+
+    // Similar to buildGameURL, build Search URL that will be used when calling Twitch API. e.g. https://api.twitch.tv/helix/clips?game_id=12924.
+    private String buildSearchURL(String url, String gameId, int limit) {
+        try {
+            gameId = URLEncoder.encode(gameId, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return String.format(url, gameId, limit);
+    }
 }
