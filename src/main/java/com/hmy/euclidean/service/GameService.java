@@ -2,6 +2,8 @@ package com.hmy.euclidean.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hmy.euclidean.entity.db.Item;
+import com.hmy.euclidean.entity.db.ItemType;
 import com.hmy.euclidean.entity.response.Game;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
@@ -121,4 +123,45 @@ public class GameService {
         }
         return String.format(url, gameId, limit);
     }
+
+    // Similar to getGameList, convert the json data returned from Twitch to a list of Item objects.
+    private List<Item> getItemList(String data) throws TwitchException {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return Arrays.asList(mapper.readValue(data, Item[].class));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new TwitchException("Failed to parse item data from Twitch API");
+        }
+    }
+
+    // Returns the top x streams based on game ID.
+    private List<Item> searchStreams(String gameId, int limit) throws TwitchException {
+        List<Item> streams = getItemList(searchTwitch(buildSearchURL(STREAM_SEARCH_URL_TEMPLATE, gameId, limit)));
+        for (Item item : streams) {
+            item.setType(ItemType.STREAM);
+            item.setUrl(TWITCH_BASE_URL + item.getBroadcasterName());
+        }
+        return streams;
+    }
+
+    // Returns the top x clips based on game ID.
+    private List<Item> searchClips(String gameId, int limit) throws TwitchException {
+        List<Item> clips = getItemList(searchTwitch(buildSearchURL(CLIP_SEARCH_URL_TEMPLATE, gameId, limit)));
+        for (Item item : clips) {
+            item.setType(ItemType.CLIP);
+        }
+        return clips;
+    }
+
+    // Returns the top x videos based on game ID.
+    private List<Item> searchVideos(String gameId, int limit) throws TwitchException {
+        List<Item> videos = getItemList(searchTwitch(buildSearchURL(VIDEO_SEARCH_URL_TEMPLATE, gameId, limit)));
+        for (Item item : videos) {
+            item.setType(ItemType.VIDEO);
+        }
+        return videos;
+    }
+
+
 }
