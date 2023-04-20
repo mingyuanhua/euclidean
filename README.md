@@ -631,7 +631,15 @@ private String id;
 According to JPA only [these types](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#identifiers-simple) can be used as identifier attribute types.
 
 
+### Authentication (Login/Logout)
+Why do we need authentication/authorization?
+- Access control: user can only access data that is authorized to that user.
+- Logging: record user-specific activity for book keeping, statistics, etc.
 
+#### User Journey
+- For an application, some resources can only be accessed by an authenticated user.
+- Once a user is authenticated, the server uses a session to maintain his/her status. The session object is stored on the server-side, only session ID is returned to the client-side. Users need to provide a session ID to access resources that require authentication.
+- When a user logs out, the session is destroyed. Next time a user comes, he/she has to authenticate again to get a new session.
 
 
 
