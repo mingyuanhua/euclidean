@@ -13,6 +13,6 @@ public class RegisterService {
     private RegisterDao registerDao;
 
     public boolean register(User user) throws IOException{
-        return registerDao.register(User);
+        return registerDao.register(user);
     }
 }
