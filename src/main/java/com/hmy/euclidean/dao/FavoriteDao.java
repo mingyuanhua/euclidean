@@ -67,5 +67,17 @@ public class FavoriteDao {
 
         return new HashSet<>();
     }
+
+    // Get favorite items for the given user. The returned map includes three entries like {"Video": [item1, item2, item3], "Stream": [item4, item5, item6], "Clip": [item7, item8, ...]}
+    public Map<String, List<String>> getFavoriteGameIds(Set<Item> items) {
+        Map<String, List<String>> itemMap = new HashMap<>();
+        for (ItemType type : ItemType.values()) {
+            itemMap.put(type.toString(), new ArrayList<>());
+        }
+        for (Item item : items) {
+            itemMap.get(item.getType().toString()).add(item.getGameId());
+        }
+        return itemMap;
+    }
 }
 
