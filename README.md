@@ -641,5 +641,47 @@ Why do we need authentication/authorization?
 - Once a user is authenticated, the server uses a session to maintain his/her status. The session object is stored on the server-side, only session ID is returned to the client-side. Users need to provide a session ID to access resources that require authentication.
 - When a user logs out, the session is destroyed. Next time a user comes, he/she has to authenticate again to get a new session.
 
+### Recommendation System
+Widely exists in industry and it is a popular interview question.
+- Facebook: news feed, friends, ‘Do you know this friend?’
+- LinkedIn: jobs, companies, acquaintances, ‘Are you interested in this job?’
+
+推荐系统是用来干什么的? 已知Users对某些Items的评价, 判断用户对其它Item的兴趣. 把“User-Item”的打分矩阵中的缺失值补齐.
+
+#### Content-based Recommendation
+Key point: You will like people or things of similar characteristics.
+- Given item profiles (category, price, etc.) of your favorite, recommend items that are similar to what you liked before. This is what we’ll use in our application. 
+- Content-based method是不同于Item-based method的推荐系统设计思想. 它是通过物品”本身的特点”, 而不是“购买这个物品的用户的信息”, 来计算物品之间的相似度. 在系统没有足够数据的时候, 一般先使用content-based method.
+- Example: Apple Music
+
+#### Item-based Recommendation (collaborative filtering)
+Filter based on the similarity of Items.
+
+Item A is liked by User A, User B, User C.
+Item B is liked by User B.
+Item C is liked by User A, User B.
+=> Item A and Item C are alike.
+Item C is liked by users who like Item A.
+=> Recommend it to user C (another user who likes Item A).
+
+#### User-based Recommendation (collaborative filtering)
+Filter based on the similarity of Users.
+
+User A likes Item A, Item C.
+User B likes Item B.
+User C likes Item A, Item C, Item D.
+=> User A shares the similar preference as User C compared to User B.
+User C also likes Item D
+=> User A may like Item D.
+
+
+### Engineering Design
+1. Given a user, get all the items (ids) this user has favorited.
+- Set<String> itemIds = dao.getFavoriteItemIds(userId);
+2. Given all these items, get their gameIds and sort by count.
+- Map<String, List<String>> keywords = dao.getFavoriteGameIds(itemIds);
+3. Given these gameIds, use Twitch API with , then filter out user favorited items.
+- List<Item> items = gameService.searchByType(gameId, type);
+
 
 
