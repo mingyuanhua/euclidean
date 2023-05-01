@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RecommendationService {
@@ -73,5 +74,49 @@ public class RecommendationService {
             }
         }
         return recommendedItems;
+    }
+
+    // Return a map of Item objects as the recommendation result. Keys of the may are [Stream, Video, Clip]. Each key is corresponding to a list of Items objects, each item object is a recommended item based on the previous favorite records by the user.
+    public Map<String, List<Item>> recommendItemsByUser(String userId) throws RecommendationException {
+        Map<String, List<Item>> recommendedItemMap = new HashMap<>();
+        Set<String> favoriteItemIds;
+        Map<String, List<String>> favoriteGameIds;
+
+        Set<Item> favoriteItems = favoriteDao.getFavoriteItems(userId);
+
+        favoriteItemIds = favoriteItems.stream().map(Item::getId).collect(Collectors.toSet());
+
+        favoriteGameIds = favoriteDao.getFavoriteGameIds(favoriteItems);
+
+        for (Map.Entry<String, List<String>> entry : favoriteGameIds.entrySet()) {
+            if (entry.getValue().size() == 0) {
+                List<Game> topGames;
+                try {
+                    topGames = gameService.topGames(DEFAULT_GAME_LIMIT);
+                } catch (TwitchException e) {
+                    throw new RecommendationException("Failed to get game data for recommendation");
+                }
+                recommendedItemMap.put(entry.getKey(), recommendByTopGames(ItemType.valueOf(entry.getKey()), topGames));
+            } else {
+                recommendedItemMap.put(entry.getKey(), recommendByFavoriteHistory(favoriteItemIds, entry.getValue(), ItemType.valueOf(entry.getKey())));
+            }
+        }
+        return recommendedItemMap;
+    }
+
+    // Return a map of Item objects as the recommendation result. Keys of the may are [Stream, Video, Clip]. Each key is corresponding to a list of Items objects, each item object is a recommended item based on the top games currently on Twitch.
+    public Map<String, List<Item>> recommendItemsByDefault() throws RecommendationException {
+        Map<String, List<Item>> recommendedItemMap = new HashMap<>();
+        List<Game> topGames;
+        try {
+            topGames = gameService.topGames(DEFAULT_GAME_LIMIT);
+        } catch (TwitchException e) {
+            throw new RecommendationException("Failed to get game data for recommendation");
+        }
+
+        for (ItemType type : ItemType.values()) {
+            recommendedItemMap.put(type.toString(), recommendByTopGames(type, topGames));
+        }
+        return recommendedItemMap;
     }
 }
